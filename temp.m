@@ -6,7 +6,6 @@ ry2ev = 13.6056919;
 ev = 1/27.2113838;
 ev2kelv = 11605;
 kelv = ev/ev2kelv;
-ry2kelv = ry2ev*ev2kelv;
 energy = 86*ev;
 velocity = sqrt(2*energy);
 
@@ -30,7 +29,7 @@ tic
 H = zeros(nat,nat,(2*lmax+1)^2);
 for l=0:2*lmax
   for m=-l:l
-    n_lm = l*(l+1)+m+1;
+    n = l*(l+1)+m+1;
     for na=1:nat
       for nb=1:nat
         for n1=-nr:nr
@@ -41,7 +40,7 @@ for l=0:2*lmax
                 exp_kr = exp(1i*ki*ki_dir'*r);
                 r = r+tau(:,na)-tau(:,nb);
                 [phi,elev,r] = cart2sph(r(1),r(2),r(3));
-                H(na,nb,n_lm) = 1i^l*sqrt(pi/2/ki/r)*besselh(l+1/2,ki*r)*...
+                H(na,nb,n) = H(na,nb,n) + 1i^l*sqrt(pi/2/ki/r)*besselh(l+1/2,ki*r)*...
                                 spherical_harmonic(l,m,pi/2-elev,phi)*exp_kr;
               end
             end
